@@ -171,83 +171,84 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card fade-in" data-testid="login-card">
-        {/* Logo */}
-        <div className="login-logo pulse-glow">
-          <Rocket className="w-10 h-10 text-white" />
-        </div>
-        
-        <h1 className="text-3xl font-bold text-center gradient-text mb-2">ASTRA-CARE</h1>
-        <p className="text-center text-gray-400 mb-8">Astronaut Health Intelligence Platform</p>
-
-        {/* Tab Switcher */}
-        <div className="flex rounded-xl bg-black/30 p-1 mb-8">
-          <button
-            onClick={() => setIsLogin(true)}
-            className={`flex-1 py-3 rounded-lg font-semibold transition-all ${
-              isLogin ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white' : 'text-gray-400'
-            }`}
-            data-testid="login-tab"
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => setIsLogin(false)}
-            className={`flex-1 py-3 rounded-lg font-semibold transition-all ${
-              !isLogin ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white' : 'text-gray-400'
-            }`}
-            data-testid="register-tab"
-          >
-            Register
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-            {error}
+    <>
+      {/* Space Background */}
+      <div className="login-bg" />
+      <div className="grid-overlay" />
+      
+      <div className="login-container">
+        <div className="login-card fade-in" data-testid="login-card">
+          {/* Logo */}
+          <div className="login-logo pulse-glow">
+            <Rocket className="w-9 h-9 text-white" />
           </div>
-        )}
+          
+          <h1 className="text-2xl font-bold text-center gradient-text mb-1">ASTRA-CARE</h1>
+          <p className="text-center text-gray-500 text-sm mb-6">Astronaut Health Intelligence Platform</p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {!isLogin && (
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <input
-                  type="text"
-                  value={formData.full_name}
-                  onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                  className="input-modern pl-12"
-                  placeholder="Commander John Doe"
-                  required={!isLogin}
-                  data-testid="input-name"
-                />
-              </div>
+          {/* Tab Switcher */}
+          <div className="tab-switcher">
+            <button
+              onClick={() => setIsLogin(true)}
+              className={`tab-btn ${isLogin ? 'active' : ''}`}
+              data-testid="login-tab"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`tab-btn ${!isLogin ? 'active' : ''}`}
+              data-testid="register-tab"
+            >
+              Register
+            </button>
+          </div>
+
+          {error && (
+            <div className="mb-5 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+              {error}
             </div>
           )}
 
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Email Address</label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="input-modern pl-12"
-                placeholder="astronaut@nasa.gov"
-                required
-                data-testid="input-email"
-              />
-            </div>
-          </div>
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <div className="input-wrapper">
+                  <User className="input-icon" />
+                  <input
+                    type="text"
+                    value={formData.full_name}
+                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                    className="input-modern"
+                    placeholder="Commander John Doe"
+                    required={!isLogin}
+                    data-testid="input-name"
+                  />
+                </div>
+              </div>
+            )}
 
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <div className="input-wrapper">
+                <Mail className="input-icon" />
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="input-modern"
+                  placeholder="astronaut@nasa.gov"
+                  required
+                  data-testid="input-email"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <div className="input-wrapper">
+                <Lock className="input-icon" />
               <input
                 type="password"
                 value={formData.password}
