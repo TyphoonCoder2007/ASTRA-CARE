@@ -249,59 +249,60 @@ function LoginPage() {
               <label className="form-label">Password</label>
               <div className="input-wrapper">
                 <Lock className="input-icon" />
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="input-modern pl-12"
-                placeholder="••••••••••"
-                required
-                data-testid="input-password"
-              />
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="input-modern"
+                  placeholder="••••••••••"
+                  required
+                  data-testid="input-password"
+                />
+              </div>
             </div>
-          </div>
 
-          {!isLogin && (
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Role</label>
-              <select
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="input-modern"
-                data-testid="input-role"
-              >
-                <option value="astronaut">Astronaut</option>
-                <option value="supervisor">Mission Supervisor</option>
-                <option value="medical">Medical Officer</option>
-              </select>
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary w-full flex items-center justify-center gap-2"
-            data-testid="submit-auth"
-          >
-            {loading ? (
-              <div className="spinner w-5 h-5" />
-            ) : (
-              <>
-                {isLogin ? <Fingerprint className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
-                {isLogin ? 'Access System' : 'Create Account'}
-              </>
+            {!isLogin && (
+              <div className="form-group">
+                <label className="form-label">Role</label>
+                <select
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  className="input-modern input-modern-no-icon"
+                  data-testid="input-role"
+                >
+                  <option value="astronaut">Astronaut</option>
+                  <option value="supervisor">Mission Supervisor</option>
+                  <option value="medical">Medical Officer</option>
+                </select>
+              </div>
             )}
-          </button>
-        </form>
 
-        {/* Demo Credentials */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-xs text-gray-500 text-center">
-            Demo: Create a new account or use any credentials to explore
-          </p>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary"
+              data-testid="submit-auth"
+            >
+              {loading ? (
+                <div className="spinner w-5 h-5" style={{ borderWidth: '2px' }} />
+              ) : (
+                <>
+                  {isLogin ? <Fingerprint className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
+                  {isLogin ? 'Access System' : 'Create Account'}
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Demo Info */}
+          <div className="mt-6 pt-5 border-t border-white/10">
+            <p className="text-xs text-gray-600 text-center">
+              Create a new account to access the astronaut health monitoring system
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
