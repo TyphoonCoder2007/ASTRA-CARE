@@ -489,8 +489,14 @@ function Dashboard({ healthData, timeline, baseline, alerts, context, astronautI
 // ===================== METRIC CARD COMPONENT =====================
 function MetricCard({ icon: Icon, label, value, unit, baseline, threshold, color }) {
   const numValue = parseFloat(value);
-  const isAboveThreshold = threshold && numValue > threshold;
-  const deviation = baseline ? ((numValue - baseline) / baseline * 100).toFixed(1) : null;
+  const isValidValue = !isNaN(numValue) && value !== '--';
+  const isAboveThreshold = threshold && isValidValue && numValue > threshold;
+  
+  // Only calculate deviation if we have valid numbers
+  let deviation = null;
+  if (isValidValue && baseline && !isNaN(baseline) && baseline !== 0) {
+    deviation = ((numValue - baseline) / baseline * 100).toFixed(1);
+  }
 
   return (
     <div className="glass-card p-5 metric-card" style={{ '--metric-color': color }} data-testid={`metric-${label.toLowerCase().replace(' ', '-')}`}>
@@ -498,7 +504,7 @@ function MetricCard({ icon: Icon, label, value, unit, baseline, threshold, color
         <div className="p-2 rounded-lg" style={{ background: `${color}20` }}>
           <Icon className="w-5 h-5" style={{ color }} />
         </div>
-        {deviation && (
+        {deviation && !isNaN(parseFloat(deviation)) && (
           <span className={`text-xs px-2 py-1 rounded-full ${
             parseFloat(deviation) > 10 ? 'bg-red-500/20 text-red-400' :
             parseFloat(deviation) < -10 ? 'bg-blue-500/20 text-blue-400' :
@@ -516,7 +522,7 @@ function MetricCard({ icon: Icon, label, value, unit, baseline, threshold, color
           </span>
           <span className="text-sm text-gray-400">{unit}</span>
         </div>
-        {baseline && (
+        {baseline && !isNaN(baseline) && (
           <p className="text-xs text-gray-500">Baseline: {baseline.toFixed(1)} {unit}</p>
         )}
       </div>
