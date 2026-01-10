@@ -351,33 +351,38 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex" data-testid="dashboard-container">
-      {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-72' : 'w-20'} fixed left-0 top-0 bottom-0 glass-strong transition-all duration-300 z-50 flex flex-col`}>
-        {/* Logo Section */}
-        <div className="p-6 border-b border-white/5">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center pulse-glow">
-              <Rocket className="w-7 h-7 text-white" />
-            </div>
-            {sidebarOpen && (
-              <div className="slide-in-left">
-                <h1 className="text-xl font-bold gradient-text">ASTRA-CARE</h1>
-                <p className="text-xs text-gray-500">v2.0 • Mission Ready</p>
+    <>
+      {/* Dashboard Background */}
+      <div className="dashboard-bg" />
+      <div className="grid-overlay" />
+      
+      <div className="min-h-screen flex" data-testid="dashboard-container">
+        {/* Sidebar */}
+        <aside className={`${sidebarOpen ? 'w-72' : 'w-20'} fixed left-0 top-0 bottom-0 glass-strong transition-all duration-300 z-50 flex flex-col`}>
+          {/* Logo Section */}
+          <div className="p-6 border-b border-white/5">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center pulse-glow">
+                <Rocket className="w-7 h-7 text-white" />
               </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="ml-auto p-2 hover:bg-white/5 rounded-lg transition-colors"
-              data-testid="toggle-sidebar"
-            >
-              {sidebarOpen ? <X className="w-5 h-5 text-gray-400" /> : <Menu className="w-5 h-5 text-gray-400" />}
-            </button>
+              {sidebarOpen && (
+                <div className="slide-in-left">
+                  <h1 className="text-xl font-bold gradient-text">ASTRA-CARE</h1>
+                  <p className="text-xs text-gray-500">v2.0 • Mission Ready</p>
+                </div>
+              )}
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="ml-auto p-2 hover:bg-white/5 rounded-lg transition-colors"
+                data-testid="toggle-sidebar"
+              >
+                {sidebarOpen ? <X className="w-5 h-5 text-gray-400" /> : <Menu className="w-5 h-5 text-gray-400" />}
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {navItems.map((item, idx) => (
             <button
               key={item.id}
