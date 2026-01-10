@@ -1186,93 +1186,182 @@ function AstraSupport({ astronautId }) {
     setSending(false);
   };
 
-  const quickPrompts = ['I feel stressed', 'Help me focus', 'Breathing exercise', 'Motivation boost', 'Sleep tips'];
+  const quickPrompts = [
+    { text: 'I feel stressed', icon: '😰' },
+    { text: 'Help me focus', icon: '🎯' },
+    { text: 'Breathing exercise', icon: '🌬️' },
+    { text: 'Motivation boost', icon: '💪' },
+    { text: 'Sleep tips', icon: '😴' }
+  ];
 
   return (
-    <div className="h-[calc(100vh-200px)] flex flex-col fade-in" data-testid="astra-support">
-      <div className="glass-card flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <div className="p-5 border-b border-white/5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-400 to-cyan-400 flex items-center justify-center pulse-glow">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h3 className="font-semibold">ASTRA Support Companion</h3>
-            <p className="text-xs text-gray-500">AI-powered psychological support</p>
-          </div>
-          <div className="ml-auto flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10">
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs text-green-400">Online</span>
-          </div>
-        </div>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {messages.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-8 h-8 text-cyan-400" />
-              </div>
-              <h4 className="text-lg font-semibold mb-2">Welcome, Astronaut</h4>
-              <p className="text-gray-400 max-w-md mx-auto">
-                I'm ASTRA, your psychological support companion. I'm here to help with stress management, focus, and well-being during your mission.
-              </p>
+    <div className="fade-in" data-testid="astra-support">
+      <div className="grid grid-cols-4 gap-6 h-[calc(100vh-220px)]">
+        {/* Main Chat Area */}
+        <div className="col-span-3 glass-card flex flex-col overflow-hidden">
+          {/* Chat Header */}
+          <div className="p-6 border-b border-white/10 flex items-center gap-4" style={{ background: 'linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(0, 240, 255, 0.1))' }}>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <Sparkles className="w-7 h-7 text-white" />
             </div>
-          ) : (
-            messages.map((msg, idx) => (
-              <div key={msg.id || idx} className="space-y-3">
-                <div className="flex justify-end">
-                  <div className="chat-bubble chat-user">
-                    <p>{msg.user_message}</p>
-                  </div>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-white">ASTRA Support Companion</h3>
+              <p className="text-sm text-gray-400">AI-powered psychological support for astronauts</p>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30">
+              <div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-sm text-green-400 font-medium">Online</span>
+            </div>
+          </div>
+
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-6" style={{ background: 'linear-gradient(180deg, rgba(3, 7, 18, 0.5), rgba(15, 23, 42, 0.3))' }}>
+            {messages.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center mx-auto mb-6 border border-cyan-500/20">
+                  <MessageCircle className="w-12 h-12 text-cyan-400" />
                 </div>
-                {msg.assistant_response ? (
-                  <div className="flex justify-start">
-                    <div className="chat-bubble chat-assistant">
-                      <p>{msg.assistant_response}</p>
+                <h4 className="text-2xl font-bold mb-3 gradient-text">Welcome, Astronaut</h4>
+                <p className="text-gray-400 max-w-lg mx-auto text-base leading-relaxed">
+                  I'm ASTRA, your psychological support companion. I'm here to help with stress management, 
+                  focus enhancement, and overall well-being during your mission.
+                </p>
+                <p className="text-sm text-gray-500 mt-4">
+                  Try one of the quick prompts on the right or type your own message below.
+                </p>
+              </div>
+            ) : (
+              messages.map((msg, idx) => (
+                <div key={msg.id || idx} className="space-y-4">
+                  {/* User Message */}
+                  <div className="flex justify-end">
+                    <div className="max-w-[75%] p-4 rounded-2xl rounded-br-md bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30">
+                      <p className="text-white leading-relaxed">{msg.user_message}</p>
+                      <p className="text-xs text-gray-500 mt-2 text-right">
+                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
                     </div>
                   </div>
-                ) : (
-                  <div className="flex justify-start">
-                    <div className="chat-bubble chat-assistant">
-                      <div className="flex items-center gap-2">
-                        <div className="spinner w-4 h-4" />
-                        <span className="text-gray-400">Thinking...</span>
+                  {/* Assistant Response */}
+                  {msg.assistant_response ? (
+                    <div className="flex justify-start items-start gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-cyan-400 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="max-w-[75%] p-4 rounded-2xl rounded-bl-md bg-gradient-to-br from-green-500/10 to-cyan-500/10 border border-green-500/20">
+                        <p className="text-white leading-relaxed">{msg.assistant_response}</p>
+                        <p className="text-xs text-green-400 mt-2">ASTRA</p>
                       </div>
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex justify-start items-start gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-cyan-400 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="p-4 rounded-2xl rounded-bl-md bg-gradient-to-br from-green-500/10 to-cyan-500/10 border border-green-500/20">
+                        <div className="flex items-center gap-3">
+                          <div className="spinner w-5 h-5" style={{ borderWidth: '2px' }} />
+                          <span className="text-gray-400">ASTRA is thinking...</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Chat Input Area */}
+          <div className="p-5 border-t border-white/10" style={{ background: 'rgba(15, 23, 42, 0.8)' }}>
+            <div className="flex gap-4 items-center">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && sendMessage(input)}
+                  placeholder="Type your message to ASTRA..."
+                  className="w-full h-14 px-6 pr-14 bg-black/40 border-2 border-cyan-500/20 rounded-2xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all text-base"
+                  disabled={sending}
+                  data-testid="chat-input"
+                />
+                <MessageCircle className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
               </div>
-            ))
-          )}
-          <div ref={chatEndRef} />
+              <button 
+                onClick={() => sendMessage(input)} 
+                disabled={!input.trim() || sending} 
+                className="h-14 px-8 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl font-semibold text-white flex items-center gap-3 hover:shadow-lg hover:shadow-cyan-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                data-testid="send-message"
+              >
+                <Send className="w-5 h-5" />
+                <span>Send</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Quick Prompts */}
-        <div className="px-5 py-3 border-t border-white/5 flex gap-2 overflow-x-auto">
-          {quickPrompts.map((prompt, idx) => (
-            <button key={idx} onClick={() => sendMessage(prompt)}
-              className="px-4 py-2 rounded-full bg-white/5 text-xs text-gray-400 hover:bg-cyan-500/10 hover:text-cyan-400 whitespace-nowrap transition-colors">
-              {prompt}
-            </button>
-          ))}
-        </div>
+        {/* Quick Actions Sidebar */}
+        <div className="col-span-1 space-y-4">
+          {/* Quick Prompts Card */}
+          <div className="glass-card p-5">
+            <h4 className="text-sm font-semibold text-cyan-400 mb-4 flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              Quick Prompts
+            </h4>
+            <div className="space-y-2">
+              {quickPrompts.map((prompt, idx) => (
+                <button 
+                  key={idx} 
+                  onClick={() => sendMessage(prompt.text)}
+                  className="w-full p-3 rounded-xl bg-white/5 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/30 text-left text-sm text-gray-300 hover:text-cyan-400 transition-all flex items-center gap-3 group"
+                >
+                  <span className="text-lg group-hover:scale-110 transition-transform">{prompt.icon}</span>
+                  <span>{prompt.text}</span>
+                </button>
+              ))}
+            </div>
+          </div>
 
-        {/* Input */}
-        <div className="p-5 border-t border-white/5 flex gap-3">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && sendMessage(input)}
-            placeholder="Type your message..."
-            className="input-modern flex-1"
-            disabled={sending}
-            data-testid="chat-input"
-          />
-          <button onClick={() => sendMessage(input)} disabled={!input.trim() || sending} className="btn-primary px-6" data-testid="send-message">
-            <Send className="w-5 h-5" />
-          </button>
+          {/* Info Card */}
+          <div className="glass-card p-5">
+            <h4 className="text-sm font-semibold text-purple-400 mb-3 flex items-center gap-2">
+              <HelpCircle className="w-4 h-4" />
+              About ASTRA
+            </h4>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              ASTRA provides non-clinical psychological support for stress management, 
+              focus improvement, and emotional well-being during space missions.
+            </p>
+            <div className="mt-4 pt-4 border-t border-white/5">
+              <p className="text-xs text-yellow-500/70 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span>For medical concerns, please consult mission medical protocols.</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Status Card */}
+          <div className="glass-card p-5">
+            <h4 className="text-sm font-semibold text-green-400 mb-3 flex items-center gap-2">
+              <Activity className="w-4 h-4" />
+              Session Status
+            </h4>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Messages</span>
+                <span className="text-white font-medium">{messages.length}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Status</span>
+                <span className="text-green-400 font-medium">Active</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Model</span>
+                <span className="text-cyan-400 font-medium">GPT-4o</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
