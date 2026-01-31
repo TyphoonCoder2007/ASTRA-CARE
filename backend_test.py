@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-ASTRA-CARE Backend API Test Suite
-Tests all backend endpoints for functionality and integration
-"""
-
 import requests
 import sys
 import json
